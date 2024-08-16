@@ -1,0 +1,90 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { API } from '../../API/API';
+import { useDispatch } from 'react-redux';
+import {jwtDecode} from 'jwt-decode';
+import { login } from '../../redux/authSlice/authSlice';
+
+const Login = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+    if (!email || !password) {
+      toast.error("All fields are required");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${API}/auth/login`, formData);
+      const { token } = response.data;
+      const decoded = jwtDecode(token);
+      dispatch(login({ username: decoded.username }));
+      toast.success("Login successful");
+      navigate('/');
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      toast.error(errorMessage);
+    }
+  };
+  
+  return (
+    <div className="flex items-start justify-center min-h-screen bg-gray-100 py-12">
+      <div className="w-full max-w-sm p-8 bg-white shadow-lg rounded-lg border border-gray-300">
+        <Link to="/">
+          <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-900">Login</h2>
+        </Link>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-6">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            Login
+          </button>
+        </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account? {" "}
+            <Link to="/register" className="text-blue-600 hover:underline">Create an account</Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
