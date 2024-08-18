@@ -1,13 +1,6 @@
-import React, {useEffect} from 'react'
-import axios from 'axios'
-import {API} from '../../API/API'
+import React from 'react'
 
 const Profile = () => {
-  useEffect(() => {
-    const fetchUserDetail = async() =>{
-      
-    }
-  }, [])
   return (
     <div>Profile</div>
   )
