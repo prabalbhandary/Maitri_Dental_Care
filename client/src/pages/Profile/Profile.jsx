@@ -36,13 +36,13 @@ const Profile = () => {
         <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-800">Social Links</h2>
           <div className="mt-2 flex space-x-4">
-            <a href="https://twitter.com/janedoe" className="text-blue-500 hover:underline">
+            <a href="https://twitter.com/janedoe" target='_blank' className="text-blue-500 hover:underline">
               Twitter
             </a>
-            <a href="https://linkedin.com/in/janedoe" className="text-blue-700 hover:underline">
+            <a href="https://linkedin.com/in/janedoe" target='_blank' className="text-blue-700 hover:underline">
               LinkedIn
             </a>
-            <a href="https://github.com/janedoe" className="text-gray-900 hover:underline">
+            <a href="https://github.com/janedoe" target='_blank' className="text-gray-900 hover:underline">
               GitHub
             </a>
           </div>
