@@ -6,9 +6,11 @@ import { API } from '../../API/API';
 import { useDispatch } from 'react-redux';
 import {jwtDecode} from 'jwt-decode';
 import { login } from '../../redux/authSlice/authSlice';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,7 +26,7 @@ const Login = () => {
       toast.error("All fields are required");
       return;
     }
-  
+
     try {
       const response = await axios.post(`${API}/auth/login`, formData);
       const { token } = response.data;
@@ -37,15 +39,15 @@ const Login = () => {
       toast.error(errorMessage);
     }
   };
-  
+
   return (
-    <div className="flex items-start justify-center min-h-screen bg-gray-100 py-12">
-      <div className="w-full max-w-sm p-8 bg-white shadow-lg rounded-lg border border-gray-300">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200 py-12">
+      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-300">
         <Link to="/">
-          <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-900">Login</h2>
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Login</h2>
         </Link>
         <form onSubmit={handleSubmit}>
-          <div className="mb-6">
+          <div className="relative mb-6">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input
               type="email"
@@ -57,17 +59,31 @@ const Login = () => {
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="relative mb-6">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 pr-12 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="text-gray-500 text-lg" />
+                ) : (
+                  <FaEye className="text-gray-500 text-lg" />
+                )}
+              </button>
+            </div>
           </div>
           <button
             type="submit"

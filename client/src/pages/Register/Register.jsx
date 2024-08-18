@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { API } from '../../API/API';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const Register = () => {
     role: 'patient',
   });
 
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -44,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-start justify-center py-8">
+    <div className="min-h-screen bg-gray-200 flex items-center justify-center py-8">
       <div className="w-full max-w-lg p-8 bg-white shadow-md rounded-lg">
         <Link to="/">
           <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Register</h2>
@@ -100,17 +102,28 @@ const Register = () => {
               required
             />
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 flex items-center px-3"
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-500 text-lg" />
+              ) : (
+                <FaEye className="text-gray-500 text-lg" />
+              )}
+            </button>
           </div>
           <div>
             <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">Role</label>
@@ -124,6 +137,7 @@ const Register = () => {
               <option value="patient">Patient</option>
               <option value="doctor">Doctor</option>
               <option value="admin">Admin</option>
+              <option value="assistant">Assistant</option>
             </select>
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center">
