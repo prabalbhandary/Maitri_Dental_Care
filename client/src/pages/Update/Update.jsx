@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { API } from '../../API/API';
@@ -15,31 +15,6 @@ const Update = () => {
     location: '',
     participants: ''
   });
-
-  // useEffect(() => {
-  //   const fetchAppointment = async () => {
-  //     try {
-  //       const response = await axios.get(`${API}/appointment/get/${_id}`);
-  //       if (response.data.success) {
-  //         setFormData({
-  //           title: response.data.data.title || "",
-  //           description: response.data.data.description || '',
-  //           date: response.data.data.date ? new Date(response.data.date).toISOString().split('T')[0] : '',
-  //           time: response.data.data.time || '',
-  //           location: response.data.data.location || '',
-  //           participants: response.data.data.participants ? response.data.participants.join(', ') : ''
-  //         });
-  //       } else {
-  //         toast.error(response.data.message || 'Failed to fetch appointment details');
-  //       }
-  //     } catch (error) {
-  //       toast.error('Failed to fetch appointment details');
-  //     }
-  //   };
-  //   if (_id) {
-  //     fetchAppointment();
-  //   }
-  // }, [_id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
